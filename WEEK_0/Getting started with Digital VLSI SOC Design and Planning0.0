@@ -1,1 +1,42 @@
+RISC-V SoC Tapeout Program – Notes Summary
+Week 0
+Getting started with Digital VLSI SoC design & planning
+Tools installation & setup instructions
+Digital VLSI SoC Design and Planning
 
+Basic Terms
+Tapeout - Final IC design is completed and sent to fabrication. Si-Proven - After fabrication, if the chip works as expected, it is called Silicon Proven (Si-Proven). Unproven Silicon - Only verified in simulations, not fabricated yet. synthesis - To convert to gates
+
+Applications of SoC
+Examples of application which run on this chip : PPT, Excel, Zoom, Firefox. End goal: A particular application should run on this chip.
+
+Chip Modeling (Design flow)
+Example :Taking an example Processor Design (Heart of any Device – Laptop/Mobile)
+
+BLOCK 1: Write code in any language → Compile using GCC in Linux.--------------------->(O0)
+
+BLOCK 2:Processor follows specifications → Tested using a testbench (in C).---------->(O1) -------->Checking (O0==O1)
+
+BLOCK 3:Verilog (Sofy copy of hardware using RTL )----------------------------------->(O2) -------->Checking (O1==O2)
+
+BLOCK 4: Specs written
+Convert into design modules (processor + peripherals + IPs). ASIC synthesis: Processor (synthesizable). Memory (synthesizable). Peripherals (synthesizable). Analog IP (not synthesizable, needs custom design).
+
+ASIC Engineer- Takes all blocks plugs the way in which it has to be .Connect SOC to GPIOs->(O3)------>Checking(O2==O3)
+
+Floor palnning,Placement, cts,routing
+
+Final design is converted into GDSII format (layout data)
+
+DRC/LVS checks before fabrication.(GDS goes to DRC/LVS) Once specs are fixed -> Chip design is frozen -> Sent for tapeout.
+
+Industries return chip back-> Tape in
+
+Test bench in C to peripherals----------------------------------------------------------->(04)--->Checking(O3==O4)
+
+Design Completed (O0==O1==O2==O3==O4)
+
+Final chip speed ( Process works for) : ~100 MHz to 130 MHz.
+
+End Applications of Fabricated Chips
+Smartwatch Arduino board TV panel Any custom application
