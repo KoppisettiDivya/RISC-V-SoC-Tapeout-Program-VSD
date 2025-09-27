@@ -1,0 +1,133 @@
+Day 3: Optimizing Combinational and Sequential Circuits
+
+Welcome to Day 3 of the workshop! Today, we focus on techniques to make digital circuits more efficient in terms of speed, area, and power consumption.
+
+Table of Contents
+
+Constant Propagation
+
+State Minimization
+
+Logic Cloning
+
+Retiming
+
+Hands-on Labs
+
+1. Constant Propagation
+
+Overview:
+Constant propagation is a synthesis optimization where signals with fixed values are directly replaced with their constants. This reduces unnecessary logic and improves circuit performance.
+
+How it works:
+
+Analyze the design to identify signals that always carry the same value.
+
+Replace those signals in the logic expressions with their constants.
+
+Advantages:
+
+Simpler Circuit: Fewer gates and simpler connections.
+
+Faster Operation: Reduced propagation delays.
+
+Resource Savings: Less usage of flip-flops or combinational logic.
+
+Example:
+
+assign y = a ? b : 0;
+
+
+Here, if a is true, y takes the value of b; otherwise, y is 0.
+
+2. State Minimization
+
+Finite State Machines (FSMs) can often be simplified by reducing the number of states. This improves efficiency and saves power.
+
+Steps for optimization:
+
+State Reduction: Merge states that are functionally equivalent.
+
+Optimal Encoding: Assign codes to states to minimize logic complexity.
+
+Logic Simplification: Apply Boolean minimization or synthesis tools.
+
+Power Savings: Use techniques like clock gating to reduce dynamic power.
+
+3. Logic Cloning
+
+Logic cloning is used to enhance timing or balance load by duplicating critical components.
+
+How it’s done:
+
+Identify critical paths with slow timing.
+
+Duplicate the module or cell.
+
+Reconnect inputs/outputs to balance signal load.
+
+Verify improved timing and reduced delay.
+
+4. Retiming
+
+Retiming repositions registers in a sequential circuit to optimize the clock period without changing functionality.
+
+Method:
+
+Model the circuit as a graph with registers and combinational paths.
+
+Move registers along paths to balance delays.
+
+Maintain functional equivalence while improving performance.
+
+5. Hands-on Labs
+Lab 1: Conditional Assignment
+module opt_lab1(input a, input b, output y);
+    assign y = a ? b : 0;
+endmodule
+
+
+Function: Multiplexer-like behavior; output follows b if a is high.
+
+Lab 2: Constant Multiplexer
+module opt_lab2(input a, input b, output y);
+    assign y = a ? 1 : b;
+endmodule
+
+
+Output is 1 when a is high; otherwise, output is b.
+
+Lab 3: 2-to-1 Mux
+
+Similar to Lab 2; reinforces conditional logic.
+
+Lab 4: Nested Ternary Logic
+module opt_lab4(input a, input b, input c, output y);
+    assign y = a ? c : ~c;
+endmodule
+
+
+Three-input logic simplified to a single ternary operation.
+
+Lab 5: D Flip-Flop with Asynchronous Reset
+module dff_lab1(input clk, input reset, output reg q);
+    always @(posedge clk, posedge reset) begin
+        if (reset)
+            q <= 1'b0;
+        else
+            q <= 1'b1;
+    end
+endmodule
+
+
+Output q resets to 0; otherwise sets to 1.
+
+Lab 6: Constant D Flip-Flop
+module dff_lab2(input clk, input reset, output reg q);
+    always @(posedge clk, posedge reset) begin
+        q <= 1'b1;
+    end
+endmodule
+
+
+Output always remains 1 regardless of reset or clock.
