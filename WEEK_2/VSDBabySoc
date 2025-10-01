@@ -1,0 +1,125 @@
+# VSDBabySoC
+
+[![Language: Verilog](https://img.shields.io/badge/Language-Verilog-blue.svg)](https://www.verilog.com/) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+**VSDBabySoC** is a lightweight System-on-Chip (SoC) design project that integrates a RISC-V CPU core, a Phase-Locked Loop (PLL), and a Digital-to-Analog Converter (DAC). It demonstrates module-level integration, pre-synthesis and post-synthesis simulation, and waveform verification.
+
+---
+
+## 🏗️ Project Overview
+
+The project aims to:  
+- Explore SoC design and integration of multiple IPs.  
+- Perform pre-synthesis (RTL) and post-synthesis (gate-level) simulations.  
+- Provide hands-on experience with **Verilog HDL**, **Icarus Verilog**, and **GTKWave**.  
+- Serve as a foundation for advanced SoC or FPGA-based projects.
+
+---
+
+## 📂 Directory Structure
+
+VSDBabySoC/
+├── src/
+│ ├── include/ # Parameter and macro definitions (*.vh)
+│ └── module/ # Verilog modules
+│ ├── vsdbabysoc.v # Top-level SoC module
+│ ├── rvmyth.v # RISC-V CPU core
+│ ├── avsdpll.v # PLL module
+│ ├── avsddac.v # DAC module
+│ └── testbench.v # Testbench for simulations
+├── output/
+│ ├── pre_synth_sim/ # Pre-synthesis simulation results
+│ └── post_synth_sim/ # Post-synthesis simulation results
+└── compiled_tlv/ # Optional intermediate files
+
+
+---
+
+## 🔹 Module Descriptions
+
+| Module             | Description |
+|-------------------|-------------|
+| `vsdbabysoc.v`    | Top-level wrapper integrating CPU, PLL, and DAC. |
+| `rvmyth.v`        | RISC-V processor core for executing instructions. |
+| `avsdpll.v`       | Generates stable clocks for the SoC. |
+| `avsddac.v`       | Converts digital outputs to analog signals. |
+| `testbench.v`     | Stimulates SoC signals and generates waveform files. |
+
+---
+
+## ⚡ Simulation Guide
+
+### 1. Pre-Synthesis Simulation
+
+Run RTL simulation to verify design before synthesis:
+
+```bash
+iverilog -o output/pre_synth_sim/pre_synth_sim.out -DPRE_SYNTH_SIM \
+    -I src/include -I src/module \
+    src/module/testbench.v src/module/vsdbabysoc.v
+
+cd output/pre_synth_sim
+./pre_synth_sim.out
+gtkwave pre_synth_sim.vcd
+
+
+Note: -DPRE_SYNTH_SIM enables RTL-specific testbench behavior.
+
+2. Post-Synthesis Simulation
+
+Verify the synthesized gate-level netlist:
+
+iverilog -o output/post_synth_sim/post_synth_sim.out -DPOST_SYNTH_SIM \
+    -I src/include -I src/module \
+    src/module/testbench.v output/synthesized/vsdbabysoc.synth.v
+
+cd output/post_synth_sim
+./post_synth_sim.out
+gtkwave post_synth_sim.vcd
+
+
+Note: -DPOST_SYNTH_SIM adapts the testbench for gate-level timing.
+🛠️ Requirements
+
+Icarus Verilog (for compilation and simulation)
+
+GTKWave (for waveform visualization)
+
+Unix-like OS (Linux or macOS recommended)
+
+💡 Tips & Best Practices
+
+Avoid module redefinition by including each module only once.
+
+Verify -I include paths; use absolute paths if relative paths fail.
+
+Organize source, output, and synthesized directories separately.
+
+🎯 Key Learning Outcomes
+
+Understand SoC design and integration.
+
+Learn Verilog HDL coding and testbench development.
+
+Perform RTL and gate-level simulations.
+
+Gain experience with waveform analysis using GTKWave.
+
+📊 Suggested Diagram
+             +-------------------+
+             |      rvmyth       |
+             |   (RISC-V CPU)    |
+             +-------------------+
+                      |
+                      v
+             +-------------------+
+             |      avsdpll      |
+             |     (PLL Clock)   |
+             +-------------------+
+                      |
+                      v
+             +-------------------+
+             |      avsddac      |
+             |     (DAC Output)  |
+             +-------------------+
