@@ -1,0 +1,89 @@
+Problem Statement
+
+This project focuses on designing a compact, open-source System on Chip (SoC) based on RVMYTH, a RISC-V-based processor core. The SoC integrates a Phase-Locked Loop (PLL) for precise clock generation and management, along with a 10-bit Digital-to-Analog Converter (DAC) to interface with external analog systems.
+
+By converting digital signals into analog form, the DAC enables the BabySoC to communicate with devices that accept analog inputs, such as televisions, audio systems, and mobile devices, allowing output in the form of audio or video signals.
+
+Built using Sky130 technology, this SoC aims to serve as a well-documented, educational platform for learning and experimentation in digital-to-analog interfacing, processor integration, and modern embedded systems design.
+
+Objectives
+
+Understanding System on a Chip (SoC): Learn the architecture, design methodology, and operational principles of SoCs.
+
+Types of SoCs: Explore various SoC designs, including microcontroller-based, FPGA-based, and application-specific SoCs.
+
+Introduction to VSDBabySoC: Gain hands-on knowledge of the BabySoC design, its components, and its functionality.
+
+By mastering these concepts and understanding how the BabySoC operates, learners build a solid foundation in embedded system design, SoC integration, and digital-to-analog interfacing.
+
+If you want, I can also draw a simple block diagram of the VSDBabySoC to visually represent the processor, PLL, and DAC connections—it will make this section much easier to understand. Do you want me to do that?
+
+You said:
+in detail
+ChatGPT said:
+
+Absolutely! Let’s expand your Problem Statement and Objectives into a detailed, comprehensive explanation suitable for a report or documentation:
+
+Problem Statement
+
+The rapid evolution of embedded systems has led to a growing demand for compact, efficient, and versatile System on Chip (SoC) designs. An SoC integrates all essential components of a computer or electronic system—processor, memory, input/output interfaces, and peripherals—onto a single silicon chip, drastically reducing power consumption, size, and cost while improving performance.
+
+This project focuses on designing VSDBabySoC, a small-scale, open-source SoC built around RVMYTH, a RISC-V-based processor core. RISC-V is an open standard instruction set architecture (ISA) that has gained popularity in academic and industrial circles due to its flexibility, simplicity, and extensibility.
+
+The BabySoC incorporates two key peripherals to expand its practical functionality:
+
+Phase-Locked Loop (PLL):
+The PLL is used to generate a stable, precise clock signal that can be scaled or synchronized according to the system requirements. It ensures accurate timing and synchronization across all components of the SoC, which is critical for correct execution of instructions and peripheral communication.
+
+10-bit Digital-to-Analog Converter (DAC):
+The DAC converts the digital output from the processor into an analog signal. This allows BabySoC to interface with analog devices such as televisions, audio systems, or mobile devices. By providing analog outputs, the SoC can generate audio signals, video waveforms, or other analog control signals, bridging the gap between digital computation and real-world analog systems.
+
+The SoC is implemented using Sky130 technology, a modern and widely accessible CMOS process that supports educational, research, and low-cost production purposes. The design aims to provide a well-documented, modular, and educational platform, enabling students, hobbyists, and researchers to study and experiment with the integration of digital cores, clock management, and digital-to-analog conversion.
+
+Objectives
+
+The main objectives of this project are as follows:
+
+1. Understanding System on a Chip (SoC)
+
+Explore the architecture and components of an SoC, including processors, memory blocks, and peripheral interfaces.
+
+Understand the design flow, from specification and RTL design to simulation, synthesis, and verification.
+
+Learn about the trade-offs in SoC design, such as power, area, and performance optimization.
+
+2. Types of SoCs
+
+Study various SoC categories:
+
+Microcontroller-based SoCs – simple, low-power, and cost-effective.
+
+Application-Specific SoCs (ASICs) – optimized for a particular function, high efficiency.
+
+FPGA-based SoCs – flexible, reconfigurable, ideal for prototyping and educational purposes.
+
+Compare their advantages, limitations, and typical use cases.
+
+3. Introduction to VSDBabySoC
+
+Gain familiarity with the RVMYTH processor, including its instruction set and core architecture.
+
+Understand the integration of the PLL for clock generation and distribution.
+
+Study the DAC module and its role in converting digital outputs into analog signals.
+
+Learn to simulate the SoC using pre-synthesis and post-synthesis verification methods.
+
+Explore practical applications, such as audio and video signal generation, and interfacing with analog devices.
+
+Expected Outcomes
+
+After completing this project, learners should be able to:
+
+Understand the complete flow of designing a small-scale SoC.
+
+Simulate and verify the functionality of processor cores with peripheral modules.
+
+Bridge digital computation with analog output systems using a DAC.
+
+Use the VSDBabySoC as an educational tool for experimenting with modern embedded systems and SoC design principles.
