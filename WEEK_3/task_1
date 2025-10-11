@@ -1,0 +1,115 @@
+Week 3 Task – Post-Synthesis GLS & STA Fundamentals
+Objective
+
+The main goal of this week’s task is to understand the importance of Gate-Level Simulation (GLS) after synthesis and to ensure
+that the synthesized design behaves exactly as it did before synthesis. In addition, the task provides an introduction to Static
+Timing Analysis (STA), which is used to verify the timing performance of the design using tools like OpenSTA.
+
+2. Methodology
+
+Synthesis of BabySoC Design
+
+The BabySoC RTL code was synthesized using an open-source synthesis tool (such as Yosys).
+
+The synthesis process translated RTL statements into a technology-mapped netlist using the selected standard cell library.
+
+The synthesis logs included information like area, cell count, and optimization messages.
+
+Setting up the GLS Environment
+
+The testbench used for the pre-synthesis (functional) simulation was reused for GLS.
+
+The synthesized netlist replaced the RTL design file in the simulation setup.
+
+Any necessary cell library models were included to allow simulation at the gate level.
+
+Running Gate-Level Simulation
+
+The simulation was executed using an open-source simulator (e.g., Icarus Verilog).
+
+Waveforms were generated using GTKWave to visualize signal transitions.
+
+The output of the gate-level simulation was recorded for comparison.
+
+Comparison with Functional Simulation
+
+The waveforms from both simulations were carefully compared.
+
+Output signals such as data, control, and clock responses matched perfectly in both cases.
+
+The timing of events might show minor differences due to propagation delays, but logical functionality remained identical.
+
+
+3. Results
+
+Synthesis Logs: The synthesis log file confirmed that the RTL was successfully optimized and mapped into standard cells without errors.
+
+GLS Waveforms: The GTKWave plots from GLS matched with the functional simulation outputs, confirming correct design behavior.
+
+Verification Statement:
+
+GLS results are identical to functional simulation results (GLS = Functional), validating that synthesis did not alter the logic functionality of the BabySoC design.
+
+
+4. Learnings from GLS
+
+Understood how RTL code transforms into a gate-level netlist after synthesis.
+
+Gained hands-on experience running post-synthesis verification using open-source tools.
+
+Observed the importance of equivalence checking between RTL and synthesized design.
+
+Learned that although delays exist in gate-level simulations, logical correctness must remain consistent.
+
+
+Part 2 – Introduction to Static Timing Analysis (STA)
+1. Purpose
+
+After confirming that the synthesized design is functionally correct, the next step is to ensure that it meets timing constraints.
+Static Timing Analysis (STA) is a method used to verify that all paths in the design satisfy setup and hold time requirements — without applying test vectors.
+This helps ensure the circuit operates reliably at the target clock frequency.
+
+2. STA with OpenSTA
+
+Netlist and Constraints Setup:
+The synthesized netlist, along with the standard cell library and design constraints (like clock definitions), were provided as inputs to the OpenSTA tool.
+
+Timing Report Generation:
+OpenSTA analyzes all timing paths between flip-flops, inputs, and outputs.
+It reports important parameters such as:
+
+Path delay
+
+Setup slack
+
+Hold slack
+
+Critical path information
+
+Analyzing the Report:
+The slack values (difference between required and actual arrival times) indicate whether the design meets its timing goals:
+
+Positive slack → design meets timing.
+
+Negative slack → design violates timing and needs optimization.
+
+3. Learnings from STA
+
+Learned how STA works without the need for test vectors, making it faster than simulation-based timing verification.
+
+Understood the concepts of setup time, hold time, and slack.
+
+Gained awareness of how timing constraints directly affect the maximum operating frequency of a design.
+
+Realized that STA complements GLS — one checks functionality, the other checks timing integrity.
+
+Conclusion
+
+Through this week’s task, I successfully:
+
+Performed Gate-Level Simulation using the synthesized netlist and confirmed that GLS outputs matched the functional simulation outputs.
+
+Understood the basics of Static Timing Analysis using OpenSTA, learning how timing paths and slack values are analyzed.
+
+These activities provided a strong understanding of post-synthesis verification, ensuring that the BabySoC design is both functionally accurate
+and timing-reliable, preparing it for the next stages of the design flow such as placement, routing, and final sign-off.
