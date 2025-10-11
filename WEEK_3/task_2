@@ -1,0 +1,82 @@
+Week 3 Task – Post-Synthesis GLS & STA Fundamentals
+Part 2 – Fundamentals of Static Timing Analysis (STA)
+Objective
+
+To understand the basic principles of Static Timing Analysis (STA) and how it helps ensure that a digital circuit meets timing requirements under all conditions, without requiring exhaustive simulations.
+
+Key Concepts Learned from the STA Course
+1. What is STA?
+
+Static Timing Analysis (STA) is a method to verify the timing performance of a digital circuit without applying any input vectors.
+
+It checks whether all timing paths meet the setup and hold requirements for reliable operation.
+
+STA ensures that signals reach their destinations at the right time for proper synchronization.
+
+2. Setup Time & Hold Time
+
+Setup Time:
+The minimum time before the clock edge during which data must remain stable to be correctly captured by a flip-flop.
+
+Hold Time:
+The minimum time after the clock edge during which data must remain stable.
+
+Violations:
+
+Setup violation: Data arrives too late → may cause wrong data capture.
+
+Hold violation: Data changes too early → may overwrite previous data.
+
+3. Timing Paths
+
+Every path in a circuit can be categorized as:
+
+Launch path: Where data starts (from a register or input).
+
+Capture path: Where data ends (to a register or output).
+
+STA analyzes all such combinational paths between start and end points.
+
+4. Clock Definitions
+
+The clock signal is the timing reference for synchronization across registers.
+
+STA requires defining:
+
+Clock period (defines max operating frequency).
+
+Clock source & propagation delay.
+
+Clock uncertainty or jitter.
+
+Proper clock definition ensures accurate setup/hold time checks across domains.
+
+5. Slack
+
+Slack = Required Time – Arrival Time
+
+Positive Slack: Timing met (data arrives early enough).
+
+Negative Slack: Timing violation (data arrives too late).
+
+STA tools like OpenSTA highlight paths with the worst negative slack (WNS) — the critical paths limiting performance.
+
+6. Path-Based Analysis
+
+STA tools compute delays across all possible paths and identify the critical path (longest delay).
+
+Path-based analysis helps pinpoint which logic elements or interconnects cause timing issues.
+
+Engineers can optimize these paths through re-synthesis, buffering, or clock skew adjustments.
+
+7. Importance of STA
+
+Ensures the circuit runs correctly at the target frequency.
+
+Detects timing issues early, saving simulation time.
+
+Provides reports like setup slack, hold slack, and timing paths, essential for sign-off.
+
+Summary
+STA is a vectorless, timing-based verification method that ensures the digital design meets timing constraints.
+It focuses on setup and hold checks, clock definitions, and path-based analysis, with slack serving as the key metric for timing health.
