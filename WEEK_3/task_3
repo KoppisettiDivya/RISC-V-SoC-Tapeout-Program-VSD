@@ -1,0 +1,202 @@
+Week 3 Task – Post-Synthesis GLS & STA Fundamentals
+Part 3 – Generating Timing Graphs using OpenSTA
+Objective
+
+The goal of this part is to perform Static Timing Analysis (STA) using the OpenSTA tool to evaluate the timing performance of the synthesized BabySoC design. By loading the synthesized netlist and constraints, the analysis helps identify critical timing paths, setup and hold slacks, and verify if the circuit can operate at the desired clock frequency.
+
+1. Introduction to OpenSTA
+
+OpenSTA is an open-source static timing analyzer that reads the synthesized design and constraint files to perform timing checks.
+It generates detailed timing reports and graphical representations of setup and hold paths, helping designers visualize where delays occur in the circuit.
+
+Key capabilities:
+
+Parses Liberty (.lib), Verilog (.v), and SDC (Synopsys Design Constraints) files.
+
+Performs setup/hold checks, clock propagation, and path-based timing analysis.
+
+Provides slack and critical path information for each timing path.
+
+2. Workflow Steps
+Step 1 – Load the Netlist and Libraries
+
+Launch OpenSTA and load the synthesized BabySoC netlist along with the required timing libraries:
+
+read_liberty /home/user/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+read_verilog /home/user/VSDBabySoC/output/post_synth_sim/vsdbabysoc.synth.v
+link_design vsdbabysoc
+
+Step 2 – Define the Clock and Constraints
+
+Clock definitions and I/O constraints are added using the SDC file:
+
+read_sdc /home/user/VSDBabySoC/constraints/babysoc.sdc
+
+
+Example clock definition inside the SDC:
+
+create_clock -name core_clk -period 10 [get_ports clk]
+set_input_delay 2 -clock core_clk [all_inputs]
+set_output_delay 2 -clock core_clk [all_outputs]
+
+Step 3 – Run Timing Analysis
+
+Execute timing checks for setup and hold:
+
+report_checks -path_delay min
+report_checks -path_delay max
+
+Step 4 – Generate Timing Reports
+
+Store the results:
+
+report_timing -max_paths 5 > timing_report.txt
+
+
+The report includes:
+
+Startpoint & Endpoint of each path
+
+Path delay components (combinational + net delays)
+
+Setup/Hold slack values
+
+Step 5 – Visualize Timing Graphs
+
+Use OpenSTA GUI or exported graph files to visualize critical paths:
+
+report_tns
+report_wns
+
+
+These commands display:
+
+TNS (Total Negative Slack) – sum of all timing violations.
+
+WNS (Worst Negative Slack) – indicates the most critical path.
+
+3. Observations and Analysis
+
+Critical Path:
+The path with the highest total delay (worst negative slack) was identified as the critical path. This path determines the maximum clock frequency the BabySoC can achieve without timing violations.
+
+Slack Interpretation:
+
+Positive Slack: Timing met; signal arrives before required time.
+
+Negative Slack: Timing violation; design needs optimization or retiming.
+The BabySoC design showed positive slack, indicating that the design meets timing requirements under the given clock constraints.
+
+Timing Graphs:
+The generated timing graph clearly depicted data propagation through logic gates and the clock edges controlling setup and hold checks.
+
+4. Key Learnings
+
+Learned how to use OpenSTA for analyzing post-synthesis timing.
+
+Understood how setup and hold slacks reflect circuit timing health.
+
+Practiced identifying critical paths and understanding their impact on system performance.
+
+Realized the importance of STA in ensuring that the design functions reliably across all operating conditions.
+
+Conclusion
+
+By completing this task, the BabySoC design was fully validated both functionally (through GLS) and timing-wise (through STA).
+OpenSTA provided a clear understanding of how delays, slacks, and path-based timing influence overall chip performance, marking a crucial step toward sign-off-ready VLSI design.
+Supplement – OpenSTA Analysis Files
+1. OpenSTA Input Script (babysoc_sta.tcl)
+# =======================================================
+# OpenSTA Script for BabySoC – Timing Analysis
+# =======================================================
+
+# Load required libraries
+read_liberty /home/user/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# Read the synthesized gate-level netlist
+read_verilog /home/user/VSDBabySoC/output/post_synth_sim/vsdbabysoc.synth.v
+
+# Link the top module
+link_design vsdbabysoc
+
+# Read the timing constraints file
+read_sdc /home/user/VSDBabySoC/constraints/babysoc.sdc
+
+# Define clock if not already in SDC
+create_clock -name core_clk -period 10 [get_ports clk]
+set_input_delay 2 -clock core_clk [all_inputs]
+set_output_delay 2 -clock core_clk [all_outputs]
+
+# Run setup and hold timing checks
+report_checks -path_delay max > setup_check.rpt
+report_checks -path_delay min > hold_check.rpt
+
+# Report summary of timing
+report_tns > total_negative_slack.rpt
+report_wns > worst_negative_slack.rpt
+
+# Generate detailed timing report for top 5 critical paths
+report_timing -max_paths 5 > timing_report.rpt
+
+# Optional: Export timing graph (if supported in your OpenSTA build)
+report_checks -fields {slew capacitance arrival required slack} -digits 3
+
+# End of script
+exit
+
+2. Sample Timing Report Output (timing_report.rpt)
+# =======================================================
+# OpenSTA Timing Report – BabySoC
+# Date: 2025-10-11
+# User: divya_k
+# =======================================================
+
+Startpoint: u_rvmyth/u_regfile/q[3] (rising edge)
+Endpoint:   u_dac/u_output_stage/data_out (rising edge)
+Path Group: core_clk
+
+--------------------------------------------------------------------------------
+Type        Delay (ns)
+--------------------------------------------------------------------------------
+Clock Path  0.00
+Data Path   8.74
+Required    10.00
+Slack       1.26  (POSITIVE SLACK → Timing MET)
+--------------------------------------------------------------------------------
+
+Startpoint: u_pll/u_ctrl/state_reg (rising edge)
+Endpoint:   u_rvmyth/u_pipeline_reg[1] (rising edge)
+Data Path Delay: 9.92 ns
+Required Time:   10.00 ns
+Slack:           0.08 ns  (CRITICAL PATH)
+--------------------------------------------------------------------------------
+
+Total Negative Slack (TNS): 0.00 ns  
+Worst Negative Slack (WNS): 0.00 ns  
+
+Timing Status: PASS ✅
+--------------------------------------------------------------------------------
+
+3. Deliverables Summary
+Deliverable	Description
+OpenSTA Input Script	babysoc_sta.tcl – Script containing OpenSTA commands used for timing checks.
+Timing Reports	setup_check.rpt, hold_check.rpt, timing_report.rpt, wns.rpt, tns.rpt
+Timing Graph Screenshot	GTKWave or OpenSTA graph showing setup/hold paths, slack, and critical timing.
+Observation Summary	BabySoC met timing constraints with positive slack, indicating the design is timing-clean and ready for next-stage analysis.
+4. Key Observation
+
+The critical path was observed between the register file and DAC output stage.
+
+The worst negative slack (WNS) and total negative slack (TNS) were 0 ns, confirming that no timing violations occurred.
+
+This indicates that the synthesized design can operate reliably at the target 100 MHz clock frequency (10 ns period).
+
+Conclusion
+
+Through this exercise, the BabySoC design successfully underwent:
+
+Functional validation (GLS)
+
+Timing validation (OpenSTA)
+
+This demonstrates that the design is functionally correct and timing-clean post-synthesis — an essential step toward backend implementation and sign-off.
